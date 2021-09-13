@@ -1,21 +1,38 @@
 import { Router } from 'express';
+import CreateUserService from '../services/CreateUserService';
 
 const usersRouter = Router();
 
-usersRouter.post('/create', (request, response) => {
-	const { role, name, email, password, birthDate, uf, city, education_level } =
-		request.body;
+usersRouter.post('/create', async (request, response) => {
+	try {
+		const {
+			role,
+			name,
+			email,
+			password,
+			birthDate,
+			uf,
+			city,
+			education_level,
+		} = request.body;
 
-	return response.json({
-		role,
-		name,
-		email,
-		password,
-		birthDate,
-		uf,
-		city,
-		education_level,
-	});
+		const createUser = new CreateUserService();
+
+		const user = await createUser.execute({
+			role,
+			name,
+			email,
+			password,
+			birthDate,
+			uf,
+			city,
+			education_level,
+		});
+
+		return response.json(user);
+	} catch (err) {
+		return response.status(400).json({ error: err.message });
+	}
 });
 
 export default usersRouter;

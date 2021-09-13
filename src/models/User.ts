@@ -6,15 +6,9 @@ import {
 	UpdateDateColumn,
 } from 'typeorm';
 
-export type UserRoleType = 'admin' | 'user';
-export type UserEducationLevelType =
-	| 'infantil'
-	| 'fundamental'
-	| 'medio'
-	| 'superior'
-	| 'pos-graduacao'
-	| 'mestrado'
-	| 'doutorado';
+import { userRoles } from '../constants/userRoles';
+import { userEducationLevels } from '../constants/userEducationLevels';
+import { brasilUfs } from '../constants/brasilUfs';
 
 @Entity('users')
 class User {
@@ -23,10 +17,10 @@ class User {
 
 	@Column({
 		type: 'enum',
-		enum: ['admin', 'user'],
+		enum: userRoles,
 		default: 'user',
 	})
-	role: UserRoleType;
+	role: string;
 
 	@Column()
 	name: string;
@@ -38,9 +32,12 @@ class User {
 	password: string;
 
 	@Column('date')
-	birthDate: Date;
+	birth_date: Date;
 
-	@Column()
+	@Column({
+		type: 'enum',
+		enum: brasilUfs,
+	})
 	uf: string;
 
 	@Column()
@@ -48,17 +45,9 @@ class User {
 
 	@Column({
 		type: 'enum',
-		enum: [
-			'infantil',
-			'fundamental',
-			'medio',
-			'superior',
-			'pos-graduacao',
-			'mestrado',
-			'doutorado',
-		],
+		enum: userEducationLevels,
 	})
-	education_level: UserEducationLevelType;
+	education_level: string;
 
 	@CreateDateColumn()
 	created_at: Date;
