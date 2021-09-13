@@ -2,12 +2,20 @@ import { Router } from 'express';
 
 const usersRouter = Router();
 
-const users = [];
-
 usersRouter.post('/create', (request, response) => {
-	const body = request.body;
+	const { role, name, email, password, birthDate, uf, city, education_level } =
+		request.body;
 
-	return response.json({ message: 'Received Body;', ...body });
+	return response.json({
+		role,
+		name,
+		email,
+		password,
+		birthDate,
+		uf,
+		city,
+		education_level,
+	});
 });
 
 export default usersRouter;
