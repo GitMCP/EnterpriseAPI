@@ -3,6 +3,17 @@ import CreateUserService from '../services/CreateUserService';
 
 const usersRouter = Router();
 
+interface userToReturn {
+	role: string;
+	name: string;
+	email: string;
+	password?: string;
+	birth_date: Date;
+	uf: string;
+	city: string;
+	education_level: string;
+}
+
 usersRouter.post('/create', async (request, response) => {
 	try {
 		const {
@@ -29,7 +40,11 @@ usersRouter.post('/create', async (request, response) => {
 			education_level,
 		});
 
-		return response.json(user);
+		const userToReturn: userToReturn = { ...user };
+
+		delete userToReturn.password;
+
+		return response.json(userToReturn);
 	} catch (err) {
 		return response.status(400).json({ error: err.message });
 	}

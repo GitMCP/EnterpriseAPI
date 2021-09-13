@@ -5,6 +5,7 @@ import { userEducationLevels } from '../constants/userEducationLevels';
 import { userRoles } from '../constants/userRoles';
 import { brasilUfs } from '../constants/brasilUfs';
 import validateCityUf from '../utils/validateCityUf';
+import { hash } from 'bcryptjs';
 
 interface Request {
 	role: string;
@@ -41,6 +42,8 @@ class CreateUserService {
 			throw new Error('Permissão do usuário inválida');
 		}
 
+		const hashedPassword = await hash(password, 8);
+
 		if (!userEducationLevels.includes(education_level)) {
 			throw new Error('Nível de escolaridade inválido');
 		}
@@ -67,7 +70,7 @@ class CreateUserService {
 			role,
 			name,
 			email,
-			password,
+			password: hashedPassword,
 			birth_date: parsedBirthDate,
 			uf,
 			city,
