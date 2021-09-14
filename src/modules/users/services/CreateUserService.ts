@@ -1,13 +1,14 @@
 import moment from 'moment';
-import User from '../models/User';
+import User from '../typeorm/entities/User';
 import { getRepository } from 'typeorm';
 import { userEducationLevels } from '../constants/userEducationLevels';
 import { userRoles } from '../constants/userRoles';
 import { brasilUfs } from '../constants/brasilUfs';
-import validateCityUf from '../utils/validateCityUf';
 import { hash } from 'bcryptjs';
 
-import AppError from '../errors/AppError';
+import axios from 'axios';
+
+import AppError from '../../../shared/errors/AppError';
 
 interface Request {
 	role: string;
@@ -18,6 +19,17 @@ interface Request {
 	uf: string;
 	city: string;
 	education_level: string;
+}
+
+async function validateCityUf(uf: any, city: any): Promise<boolean> {
+	const response = await axios
+		.get(
+			`https://servicodados.ibge.gov.br/api/v1/localidades/estados/${uf}/municipios`,
+		)
+		.then(response =>
+			response.data.map((responseCity: { nome: any }) => responseCity.nome),
+		);
+	return response.includes(city);
 }
 
 class CreateUserService {
