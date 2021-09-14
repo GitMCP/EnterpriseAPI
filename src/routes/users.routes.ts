@@ -1,5 +1,9 @@
 import { Router } from 'express';
 import CreateUserService from '../services/CreateUserService';
+import ensureAutheticated from '../middlewares/ensureAuthenticated';
+
+import User from '../models/User';
+import { getRepository } from 'typeorm';
 
 const usersRouter = Router();
 
@@ -45,6 +49,22 @@ usersRouter.post('/create', async (request, response) => {
 		delete userToReturn.password;
 
 		return response.json(userToReturn);
+	} catch (err) {
+		return response.status(400).json({ error: err.message });
+	}
+});
+
+usersRouter.get('/list', ensureAutheticated, async (request, response) => {
+	try {
+		if (request.user.role != 'admin') {
+			throw new Error('Permissão negada.');
+		}
+
+		const usersRepository = getRepository(User);
+
+		const [users, total] = await usersRepository.findAndCount();
+
+		return response.json({ ...users, total });
 	} catch (err) {
 		return response.status(400).json({ error: err.message });
 	}

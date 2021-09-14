@@ -4,17 +4,20 @@ import AuthenticateUserService from '../services/AuthenticateUserService';
 const sessionsRouter = Router();
 
 interface userToReturn {
-	role: string;
-	name: string;
-	email: string;
-	password?: string;
-	birth_date: Date;
-	uf: string;
-	city: string;
-	education_level: string;
+	user: {
+		role: string;
+		name: string;
+		email: string;
+		password?: string;
+		birth_date: Date;
+		uf: string;
+		city: string;
+		education_level: string;
+	};
+	token: string;
 }
 
-sessionsRouter.post('/create', async (request, response) => {
+sessionsRouter.post('/', async (request, response) => {
 	try {
 		const { email, password } = request.body;
 
@@ -27,7 +30,7 @@ sessionsRouter.post('/create', async (request, response) => {
 
 		const userToReturn: userToReturn = { ...user };
 
-		delete userToReturn.password;
+		delete userToReturn.user.password;
 
 		return response.json(userToReturn);
 	} catch (err) {
