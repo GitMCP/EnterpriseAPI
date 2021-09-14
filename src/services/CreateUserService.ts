@@ -7,6 +7,8 @@ import { brasilUfs } from '../constants/brasilUfs';
 import validateCityUf from '../utils/validateCityUf';
 import { hash } from 'bcryptjs';
 
+import AppError from '../errors/AppError';
+
 interface Request {
 	role: string;
 	name: string;
@@ -35,35 +37,35 @@ class CreateUserService {
 			where: { email },
 		});
 		if (IsEmailInUse) {
-			throw new Error('Email já cadastrado.');
+			throw new AppError('Email já cadastrado.');
 		}
 
 		if (!userRoles.includes(role)) {
-			throw new Error('Permissão do usuário inválida');
+			throw new AppError('Permissão do usuário inválida');
 		}
 
 		const hashedPassword = await hash(password, 8);
 
 		if (!userEducationLevels.includes(education_level)) {
-			throw new Error('Nível de escolaridade inválido');
+			throw new AppError('Nível de escolaridade inválido');
 		}
 
 		if (
 			!moment(birthDate, 'DD-MM-YYYY').isValid() ||
 			moment(birthDate, 'DD-MM-YYYY').isAfter(moment())
 		) {
-			throw new Error('Data de nascimento inválida');
+			throw new AppError('Data de nascimento inválida');
 		}
 		const parsedBirthDate = moment(birthDate, 'DD-MM-YYYY');
 
 		if (!brasilUfs.includes(uf)) {
-			throw new Error('Unidade Federativa inválida');
+			throw new AppError('Unidade Federativa inválida');
 		}
 
 		const isCityValid = await validateCityUf(uf, city);
 
 		if (!isCityValid) {
-			throw new Error('Cidade inválida');
+			throw new AppError('Cidade inválida');
 		}
 
 		const user = usersRepository.create({

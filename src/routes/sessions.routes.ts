@@ -18,24 +18,20 @@ interface userToReturn {
 }
 
 sessionsRouter.post('/', async (request, response) => {
-	try {
-		const { email, password } = request.body;
+	const { email, password } = request.body;
 
-		const authenticateUser = new AuthenticateUserService();
+	const authenticateUser = new AuthenticateUserService();
 
-		const user = await authenticateUser.execute({
-			email,
-			password,
-		});
+	const user = await authenticateUser.execute({
+		email,
+		password,
+	});
 
-		const userToReturn: userToReturn = { ...user };
+	const userToReturn: userToReturn = { ...user };
 
-		delete userToReturn.user.password;
+	delete userToReturn.user.password;
 
-		return response.json(userToReturn);
-	} catch (err) {
-		return response.status(400).json({ error: err.message });
-	}
+	return response.json(userToReturn);
 });
 
 export default sessionsRouter;

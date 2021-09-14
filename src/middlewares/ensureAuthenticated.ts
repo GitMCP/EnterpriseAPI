@@ -2,6 +2,8 @@ import { Request, Response, NextFunction } from 'express';
 import { verify } from 'jsonwebtoken';
 import authConfig from '../config/auth';
 
+import AppError from '../errors/AppError';
+
 interface TokenPayLoad {
 	userRole: string;
 	iat: number;
@@ -17,7 +19,7 @@ export default function ensureAutheticated(
 	const authHHeader = request.headers.authorization;
 
 	if (!authHHeader) {
-		throw new Error('Token de autenticação ausente.');
+		throw new AppError('Token de autenticação ausente.', 401);
 	}
 
 	const [, token] = authHHeader.split(' ');
@@ -33,6 +35,6 @@ export default function ensureAutheticated(
 		};
 		return next();
 	} catch {
-		throw new Error('Token de autenticação inválido');
+		throw new AppError('Token de autenticação inválido', 401);
 	}
 }

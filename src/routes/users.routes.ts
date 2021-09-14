@@ -19,55 +19,39 @@ interface userToReturn {
 }
 
 usersRouter.post('/create', async (request, response) => {
-	try {
-		const {
-			role,
-			name,
-			email,
-			password,
-			birthDate,
-			uf,
-			city,
-			education_level,
-		} = request.body;
+	const { role, name, email, password, birthDate, uf, city, education_level } =
+		request.body;
 
-		const createUser = new CreateUserService();
+	const createUser = new CreateUserService();
 
-		const user = await createUser.execute({
-			role,
-			name,
-			email,
-			password,
-			birthDate,
-			uf,
-			city,
-			education_level,
-		});
+	const user = await createUser.execute({
+		role,
+		name,
+		email,
+		password,
+		birthDate,
+		uf,
+		city,
+		education_level,
+	});
 
-		const userToReturn: userToReturn = { ...user };
+	const userToReturn: userToReturn = { ...user };
 
-		delete userToReturn.password;
+	delete userToReturn.password;
 
-		return response.json(userToReturn);
-	} catch (err) {
-		return response.status(400).json({ error: err.message });
-	}
+	return response.json(userToReturn);
 });
 
 usersRouter.get('/list', ensureAutheticated, async (request, response) => {
-	try {
-		if (request.user.role != 'admin') {
-			throw new Error('Permissão negada.');
-		}
-
-		const usersRepository = getRepository(User);
-
-		const [users, total] = await usersRepository.findAndCount();
-
-		return response.json({ ...users, total });
-	} catch (err) {
-		return response.status(400).json({ error: err.message });
+	if (request.user.role != 'admin') {
+		throw new Error('Permissão negada.');
 	}
+
+	const usersRepository = getRepository(User);
+
+	const [users, total] = await usersRepository.findAndCount();
+
+	return response.json({ ...users, total });
 });
 
 export default usersRouter;
