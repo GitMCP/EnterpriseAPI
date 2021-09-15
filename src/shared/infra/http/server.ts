@@ -4,7 +4,7 @@ import 'express-async-errors';
 import routes from './routes';
 import AppError from '../../errors/AppError';
 
-import '../typeorm';
+import '../../database';
 const app = express();
 app.use(express.json());
 app.use(routes);

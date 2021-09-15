@@ -38,6 +38,7 @@ export class CreateCompaniesTable1631665730437 implements MigrationInterface {
 					{
 						name: 'director_id',
 						type: 'uuid',
+						isUnique: true,
 					},
 					{
 						name: 'created_at',
