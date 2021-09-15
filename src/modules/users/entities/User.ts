@@ -6,9 +6,9 @@ import {
 	UpdateDateColumn,
 } from 'typeorm';
 
-import { userRoles } from '../../constants/userRoles';
-import { userEducationLevels } from '../../constants/userEducationLevels';
-import { brasilUfs } from '../../constants/brasilUfs';
+import { userRoles } from '../constants/userRoles';
+import { userEducationLevels } from '../constants/userEducationLevels';
+import { brasilUfs } from '../constants/brasilUfs';
 
 @Entity('users')
 class User {

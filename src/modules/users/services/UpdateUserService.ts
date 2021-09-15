@@ -5,16 +5,21 @@ import { userEducationLevels } from '../constants/userEducationLevels';
 import { userRoles } from '../constants/userRoles';
 import { brasilUfs } from '../constants/brasilUfs';
 import { hash } from 'bcryptjs';
+import { compare } from 'bcryptjs';
 
 import axios from 'axios';
 
 import AppError from '../../../shared/errors/AppError';
 
 interface Request {
+	targetUserId: string;
+	requestingUserId: string;
+	requestingUserRole: string;
 	role: string;
 	name: string;
 	email: string;
 	password: string;
+	oldPassword: string;
 	birthDate: string;
 	uf: string;
 	city: string;
@@ -32,18 +37,36 @@ async function validateCityUf(uf: any, city: any): Promise<boolean> {
 	return response.includes(city);
 }
 
-class CreateUserService {
+class UpdateUserService {
 	public async execute({
+		targetUserId,
+		requestingUserId,
+		requestingUserRole,
 		role,
 		name,
 		email,
 		password,
+		oldPassword,
 		birthDate,
 		uf,
 		city,
 		education_level,
 	}: Request): Promise<User> {
 		const usersRepository = getRepository(User);
+
+		const isUserAdmin = requestingUserRole === 'admin';
+
+		if (!isUserAdmin && requestingUserId != targetUserId) {
+			throw new AppError('Permissão negada.');
+		}
+		console.log(isUserAdmin);
+
+		const user = await usersRepository.findOne({
+			where: { id: targetUserId },
+		});
+		if (!user) {
+			throw new AppError('Usuário não encontrado');
+		}
 
 		const IsEmailInUse = await usersRepository.findOne({
 			where: { email },
@@ -52,11 +75,21 @@ class CreateUserService {
 			throw new AppError('Email já cadastrado.');
 		}
 
+		if (password) {
+			if (!oldPassword) {
+				throw new AppError('Informe sua senha atual.');
+			}
+			const passwordMatched = await compare(oldPassword, user.password);
+			if (!passwordMatched) {
+				throw new AppError('Senha atual incorreta.');
+			}
+		}
+
 		if (!userRoles.includes(role)) {
 			throw new AppError('Permissão do usuário inválida');
 		}
 
-		const hashedPassword = await hash(password, 8);
+		const hashedPassword = password ? await hash(password, 8) : null;
 
 		if (!userEducationLevels.includes(education_level)) {
 			throw new AppError('Nível de escolaridade inválido');
@@ -80,21 +113,19 @@ class CreateUserService {
 			throw new AppError('Cidade inválida');
 		}
 
-		const user = usersRepository.create({
-			role,
-			name,
-			email,
-			password: hashedPassword,
-			birth_date: parsedBirthDate,
-			uf,
-			city,
-			education_level,
-		});
+		user.role = role && isUserAdmin ? role : user.role;
+		user.name = name ? name : user.name;
+		user.email = email ? email : user.email;
+		user.password = hashedPassword ? hashedPassword : user.password;
+		user.birth_date = parsedBirthDate ? parsedBirthDate : user.birth_date;
+		user.uf = uf ? uf : user.uf;
+		user.city = city ? city : user.city;
+		user.education_level = education_level
+			? education_level
+			: user.education_level;
 
-		await usersRepository.save(user);
-
-		return user;
+		return await usersRepository.save(user);
 	}
 }
 
-export default CreateUserService;
+export default UpdateUserService;

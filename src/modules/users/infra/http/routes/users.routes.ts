@@ -4,6 +4,8 @@ import ensureAutheticated from '../../../../../shared/infra/http/middlewares/ens
 
 import User from '../../../typeorm/entities/User';
 import { getRepository } from 'typeorm';
+import UpdateUserService from '../../../services/UpdateUserService';
+import AppError from '../../../../../shared/errors/AppError';
 
 const usersRouter = Router();
 
@@ -16,6 +18,9 @@ interface userToReturn {
 	uf: string;
 	city: string;
 	education_level: string;
+	targetUserId?: string;
+	requestingUserId?: string;
+	requestingUserRole?: string;
 }
 
 usersRouter.post('/create', async (request, response) => {
@@ -44,7 +49,7 @@ usersRouter.post('/create', async (request, response) => {
 
 usersRouter.get('/list', ensureAutheticated, async (request, response) => {
 	if (request.user.role != 'admin') {
-		throw new Error('Permissão negada.');
+		throw new AppError('Permissão negada.');
 	}
 
 	const usersRepository = getRepository(User);
@@ -52,6 +57,51 @@ usersRouter.get('/list', ensureAutheticated, async (request, response) => {
 	const [users, total] = await usersRepository.findAndCount();
 
 	return response.json({ ...users, total });
+});
+
+usersRouter.put('/update', ensureAutheticated, async (request, response) => {
+	const { targetUserId } = request.query;
+
+	if (!targetUserId) {
+		throw new AppError('Informe o id do usuário a ser alterado');
+	}
+	const {
+		role,
+		name,
+		email,
+		password,
+		oldPassword,
+		birthDate,
+		uf,
+		city,
+		education_level,
+	} = request.body;
+
+	const updateUser = new UpdateUserService();
+
+	const user = await updateUser.execute({
+		targetUserId: targetUserId.toString(),
+		requestingUserId: request.user.id,
+		requestingUserRole: request.user.role,
+		role,
+		name,
+		email,
+		password,
+		oldPassword,
+		birthDate,
+		uf,
+		city,
+		education_level,
+	});
+
+	const userToReturn: userToReturn = { ...user };
+
+	delete userToReturn.password;
+	delete userToReturn.targetUserId;
+	delete userToReturn.requestingUserId;
+	delete userToReturn.requestingUserRole;
+
+	return response.json(userToReturn);
 });
 
 export default usersRouter;
