@@ -61,7 +61,6 @@ usersRouter.get('/list', ensureAutheticated, async (request, response) => {
 
 usersRouter.put('/update', ensureAutheticated, async (request, response) => {
 	const { targetUserId } = request.query;
-
 	if (!targetUserId) {
 		throw new AppError('Informe o id do usuário a ser alterado');
 	}

@@ -113,15 +113,13 @@ class UpdateUserService {
 		}
 
 		user.role = role && isUserAdmin ? role : user.role;
-		user.name = name ? name : user.name;
-		user.email = email ? email : user.email;
-		user.password = hashedPassword ? hashedPassword : user.password;
-		user.birth_date = parsedBirthDate ? parsedBirthDate : user.birth_date;
-		user.uf = uf ? uf : user.uf;
-		user.city = city ? city : user.city;
-		user.education_level = education_level
-			? education_level
-			: user.education_level;
+		user.name = name || user.name;
+		user.email = email || user.email;
+		user.password = hashedPassword || user.password;
+		user.birth_date = parsedBirthDate || user.birth_date;
+		user.uf = uf || user.uf;
+		user.city = city || user.city;
+		user.education_level = education_level || user.education_level;
 
 		return await usersRepository.save(user);
 	}
