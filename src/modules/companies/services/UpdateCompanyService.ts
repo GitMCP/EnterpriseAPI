@@ -31,6 +31,7 @@ class UpdateCompanyService {
 		if (requestingUserRole !== 'admin') {
 			throw new AppError('Permissão negada.');
 		}
+
 		const company = await companiesRepository.findOne({
 			where: { id: targetCompanyId },
 		});
@@ -45,7 +46,6 @@ class UpdateCompanyService {
 			: null;
 		if (directorEmail) {
 			if (!director) {
-				console.log(director);
 				throw new AppError('Diretor não encontrado.');
 			}
 			if (

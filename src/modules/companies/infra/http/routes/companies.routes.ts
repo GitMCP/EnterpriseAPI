@@ -3,6 +3,7 @@ import ensureAutheticated from '../../../../../shared/infra/http/middlewares/ens
 import CreateCompanyService from '../../../services/CreateCompanyService';
 import AppError from '../../../../../shared/errors/AppError';
 import UpdateCompanyService from '../../../services/UpdateCompanyService';
+import ListCompaniesService from '../../../services/ListCompaniesService';
 
 const companiesRouter = Router();
 
@@ -55,5 +56,23 @@ companiesRouter.put(
 		return response.json(company);
 	},
 );
+
+companiesRouter.post('/list', ensureAutheticated, async (request, response) => {
+	const { name, business_area, description, foundation_date, directorEmail } =
+		request.body;
+
+	const listCompanies = new ListCompaniesService();
+
+	const company = await listCompanies.execute({
+		requestingUserRole: request.user.role,
+		name,
+		business_area,
+		description,
+		foundation_date,
+		directorEmail,
+	});
+
+	return response.json(company);
+});
 
 export default companiesRouter;
