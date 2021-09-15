@@ -59,7 +59,6 @@ class UpdateUserService {
 		if (!isUserAdmin && requestingUserId != targetUserId) {
 			throw new AppError('Permissão negada.');
 		}
-		console.log(isUserAdmin);
 
 		const user = await usersRepository.findOne({
 			where: { id: targetUserId },

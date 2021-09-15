@@ -4,11 +4,15 @@ import {
 	PrimaryGeneratedColumn,
 	CreateDateColumn,
 	UpdateDateColumn,
+	OneToMany,
+	JoinColumn,
 } from 'typeorm';
 
 import { userRoles } from '../constants/userRoles';
 import { userEducationLevels } from '../constants/userEducationLevels';
 import { brasilUfs } from '../constants/brasilUfs';
+import { jobs } from '../constants/jobs';
+import Company from '../../companies/typeorm/entities/Company';
 
 @Entity('users')
 class User {
@@ -48,6 +52,19 @@ class User {
 		enum: userEducationLevels,
 	})
 	education_level: string;
+
+	@Column()
+	company_id: string;
+
+	@OneToMany(() => Company, Company => Company.id)
+	@JoinColumn({ name: 'company_id' })
+	company: Company;
+
+	@Column({
+		type: 'enum',
+		enum: jobs,
+	})
+	job: string;
 
 	@CreateDateColumn()
 	created_at: Date;
