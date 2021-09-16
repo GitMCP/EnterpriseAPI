@@ -55,7 +55,7 @@ class User {
 	education_level: string;
 
 	@Column()
-	company_id: string;
+	company_id: string | null;
 
 	@ManyToOne(() => Company, Company => Company.id)
 	@JoinColumn({ name: 'company_id' })
@@ -65,7 +65,7 @@ class User {
 		type: 'enum',
 		enum: jobs,
 	})
-	job: string;
+	job: string | null;
 
 	@CreateDateColumn()
 	created_at: Date;
