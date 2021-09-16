@@ -11,7 +11,6 @@ import axios from 'axios';
 import AppError from '../../../shared/errors/AppError';
 
 interface Request {
-	role: string;
 	name: string;
 	email: string;
 	password: string;
@@ -34,7 +33,6 @@ async function validateCityUf(uf: any, city: any): Promise<boolean> {
 
 class CreateUserService {
 	public async execute({
-		role,
 		name,
 		email,
 		password,
@@ -50,10 +48,6 @@ class CreateUserService {
 		});
 		if (IsEmailInUse) {
 			throw new AppError('Email já cadastrado.');
-		}
-
-		if (!userRoles.includes(role)) {
-			throw new AppError('Permissão do usuário inválida');
 		}
 
 		const hashedPassword = await hash(password, 8);
@@ -81,7 +75,7 @@ class CreateUserService {
 		}
 
 		const user = usersRepository.create({
-			role,
+			role: 'user',
 			name,
 			email,
 			password: hashedPassword,

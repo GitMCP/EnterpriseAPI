@@ -24,13 +24,12 @@ interface userToReturn {
 }
 
 usersRouter.post('/create', async (request, response) => {
-	const { role, name, email, password, birthDate, uf, city, education_level } =
+	const { name, email, password, birthDate, uf, city, education_level } =
 		request.body;
 
 	const createUser = new CreateUserService();
 
 	const user = await createUser.execute({
-		role,
 		name,
 		email,
 		password,
