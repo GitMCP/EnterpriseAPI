@@ -1,0 +1,520 @@
+_type: export
+__export_format: 4
+__export_date: 2021-09-16T20:17:35.128Z
+__export_source: insomnia.desktop.app:v2021.5.2
+resources:
+  - _id: req_29b6e9d345a2479493e1ececb23b1909
+    parentId: fld_ab56baa6f5d2413bb3ce19aa0c3af059
+    modified: 1631822703062
+    created: 1631577304451
+    url: localhost:3333/sessions
+    name: Create Session (Authenticate)
+    description: ""
+    method: POST
+    body:
+      mimeType: application/json
+      text: |-
+        {
+        	"email": "string",
+        	"password": "string"
+        }
+    parameters: []
+    headers:
+      - name: Content-Type
+        value: application/json
+        id: pair_592ff08cf25e40f1a9bbbac9e9616e6e
+    authentication: {}
+    metaSortKey: -1631577304451
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: fld_ab56baa6f5d2413bb3ce19aa0c3af059
+    parentId: wrk_4eff38ed19cc458396d36861cf492a38
+    modified: 1631822527639
+    created: 1631577292420
+    name: Session
+    description: ""
+    environment: {}
+    environmentPropertyOrder: null
+    metaSortKey: -1631668630167
+    _type: request_group
+  - _id: wrk_4eff38ed19cc458396d36861cf492a38
+    parentId: null
+    modified: 1631472058137
+    created: 1631472058137
+    name: EnterpriseAPI
+    description: ""
+    scope: collection
+    _type: workspace
+  - _id: req_2a3a95fbb8d7497ea6d46c4adb470900
+    parentId: fld_035d1e900781482281a68752e40c8e25
+    modified: 1631822800274
+    created: 1631668651855
+    url: localhost:3333/companies/create
+    name: Create Company
+    description: ""
+    method: POST
+    body:
+      mimeType: application/json
+      text: |-
+        {
+        	"name": "string",
+        	"business_area": "string",
+        	"description": "string",
+        	"foundation_date": "Date-formated string",
+        	"directorEmail": "string"
+        }
+    parameters: []
+    headers:
+      - name: Content-Type
+        value: application/json
+        id: pair_9bd343d2fb7c4f31834609a1185cb845
+    authentication:
+      type: bearer
+      token: ""
+    metaSortKey: -1631820214135
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: fld_035d1e900781482281a68752e40c8e25
+    parentId: wrk_4eff38ed19cc458396d36861cf492a38
+    modified: 1631668642183
+    created: 1631668630117
+    name: Companies
+    description: ""
+    environment: {}
+    environmentPropertyOrder: null
+    metaSortKey: -1631668630117
+    _type: request_group
+  - _id: req_e6e8c94f50c24fd2b9774cdd72723b30
+    parentId: fld_035d1e900781482281a68752e40c8e25
+    modified: 1631822802460
+    created: 1631747726127
+    url: localhost:3333/companies/list
+    name: List Companies
+    description: ""
+    method: POST
+    body:
+      mimeType: application/json
+      text: |-
+        {
+            "name": "string",
+            "business_area": "string",
+            "description": "string",
+            "foundation_date": "date-formated string",
+            "director_id": "string"
+        }
+    parameters: []
+    headers:
+      - name: Content-Type
+        value: application/json
+        id: pair_b8a5354eb86546bfa7ad0f45dc150f8d
+    authentication:
+      type: bearer
+      token: ""
+    metaSortKey: -1631820214110
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_0800e43c684d49c58bf3c29aceae2482
+    parentId: fld_035d1e900781482281a68752e40c8e25
+    modified: 1631822888611
+    created: 1631751255850
+    url: localhost:3333/companies/detail?targetCompanyId=string
+    name: Detail Company
+    description: ""
+    method: GET
+    body: {}
+    parameters: []
+    headers: []
+    authentication:
+      type: bearer
+      token: ""
+    metaSortKey: -1631820214103.75
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_101f931a74e246909bb0da5b6c917391
+    parentId: fld_035d1e900781482281a68752e40c8e25
+    modified: 1631822862807
+    created: 1631745594636
+    url: localhost:3333/companies/update?targetCompanyId=e424cde4-adf1-4f4a-a406-c5201d138f10
+    name: Update Company
+    description: ""
+    method: PUT
+    body:
+      mimeType: application/json
+      text: |-
+        {
+        	"name": "string",
+        	"business_area": "string",
+        	"description": "string",
+        	"foundation_date": "date-formated string",
+        	"directorEmail": "string"
+        }
+    parameters: []
+    headers:
+      - name: Content-Type
+        value: application/json
+        id: pair_97ae42ba5dec40378c9a3f57506c7239
+    authentication:
+      type: bearer
+      token: ""
+    metaSortKey: -1631820214100.625
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_3d6a7bdf777d4540a3b297efa24061c0
+    parentId: fld_035d1e900781482281a68752e40c8e25
+    modified: 1631822870116
+    created: 1631813923754
+    url: localhost:3333/companies/hire
+    name: Hire Employees
+    description: ""
+    method: POST
+    body:
+      mimeType: application/json
+      text: |-
+        {
+        	"targetUserId": "string",
+        	"targetCompanyId": "string",
+        	"targetJob": "string"
+        }
+    parameters: []
+    headers:
+      - name: Content-Type
+        value: application/json
+        id: pair_0280b930378f477fa3792c87d2f88b41
+    authentication:
+      type: bearer
+      token: ""
+    metaSortKey: -1631820214097.5
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_24c1cf3126d442c196ba23627d45fca9
+    parentId: fld_035d1e900781482281a68752e40c8e25
+    modified: 1631822874885
+    created: 1631820214085
+    url: localhost:3333/companies/listemployees
+    name: List Employees
+    description: ""
+    method: POST
+    body:
+      mimeType: application/json
+      text: |-
+        {
+        	"targetCompanyId": "string"
+        }
+    parameters: []
+    headers:
+      - name: Content-Type
+        value: application/json
+        id: pair_47eb437137d746d791544eaf0eb72cf1
+    authentication:
+      type: bearer
+      token: ""
+    metaSortKey: -1631820214085
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_ad371053cf0348d7b339496dc8dd2551
+    parentId: fld_035d1e900781482281a68752e40c8e25
+    modified: 1631822879838
+    created: 1631816754551
+    url: localhost:3333/companies/dismiss
+    name: Dismiss Employees
+    description: ""
+    method: POST
+    body:
+      mimeType: application/json
+      text: |-
+        {
+        	"targetUserId": "string",
+        	"targetCompanyId": "string",
+        	"targetJob": "string"
+        }
+    parameters: []
+    headers:
+      - name: Content-Type
+        value: application/json
+        id: pair_0280b930378f477fa3792c87d2f88b41
+    authentication:
+      type: bearer
+      token: ""
+    metaSortKey: -1631811291231.5
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_009d56e1cb3448b7883dbc0760cb9a69
+    parentId: fld_035d1e900781482281a68752e40c8e25
+    modified: 1631822893527
+    created: 1631753297532
+    url: localhost:3333/companies/delete?targetCompanyId=string
+    name: Delete Company
+    description: ""
+    method: DELETE
+    body: {}
+    parameters: []
+    headers: []
+    authentication:
+      type: bearer
+      token: ""
+    metaSortKey: -1631753297532
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_66d4c892d3a748e486315567ae665f53
+    parentId: fld_3856197487704135bdbaaafc2607d05f
+    modified: 1631822979668
+    created: 1631472074009
+    url: localhost:3333/users/create
+    name: Create User
+    description: ""
+    method: POST
+    body:
+      mimeType: application/json
+      text: |-
+        {
+        	"name": "string",
+        	"email": "string",
+        	"password": "string",
+        	"birthDate": "date-formated string",
+        	"uf": "string",
+        	"city": "string",
+        	"education_level": "string"
+        }
+    parameters: []
+    headers:
+      - name: Content-Type
+        value: application/json
+        id: pair_c63a46789927438aa20aa1276f77b26b
+    authentication: {}
+    metaSortKey: -1631808658759
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: fld_3856197487704135bdbaaafc2607d05f
+    parentId: wrk_4eff38ed19cc458396d36861cf492a38
+    modified: 1631822992172
+    created: 1631577285086
+    name: Users
+    description: ""
+    environment: {}
+    environmentPropertyOrder: null
+    metaSortKey: -1631577285086
+    _type: request_group
+  - _id: req_54c31cef9bd2492586d6912c8b6aa195
+    parentId: fld_3856197487704135bdbaaafc2607d05f
+    modified: 1631823048905
+    created: 1631579499762
+    url: localhost:3333/users/list
+    name: List Users
+    description: ""
+    method: POST
+    body:
+      mimeType: application/json
+      text: |-
+        {
+        	 "role": "string",
+            "name": "string",
+            "email": "string",
+            "birth_date": "date-formated string",
+            "uf": "string",
+            "city": "string",
+            "education_level": "string",
+            "company_id": "string",
+            "job": "string"
+        }
+    parameters: []
+    headers:
+      - name: Content-Type
+        value: application/json
+        id: pair_4c551bcc177a4badae3a711b7b35b068
+    authentication:
+      type: bearer
+      token: ""
+    metaSortKey: -1631808658734
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_a585b7c78cc74a2fb8b0a9d993f4d3bd
+    parentId: fld_3856197487704135bdbaaafc2607d05f
+    modified: 1631823056619
+    created: 1631802499142
+    url: localhost:3333/users/detail?targetUserId=string
+    name: Detail User
+    description: ""
+    method: GET
+    body: {}
+    parameters: []
+    headers: []
+    authentication:
+      type: bearer
+      token: ""
+    metaSortKey: -1631808658721.5
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_23d63350f2204c889ef7914a76c4ea23
+    parentId: fld_3856197487704135bdbaaafc2607d05f
+    modified: 1631823087136
+    created: 1631662650857
+    url: localhost:3333/users/update?targetUserId=89a0b536-8d77-45a8-90d7-860e6b685dc5
+    name: Update Users
+    description: ""
+    method: PUT
+    body:
+      mimeType: application/json
+      text: |-
+        {
+        	"role": "string",
+        	"name": "string",
+        	"email": "string",
+        	"password": "string",
+        	"oldPassword": "string",
+        	"birthDate": "date-formated string",
+        	"uf": "string",
+        	"city": "string",
+        	"education_level": "string"
+        }
+    parameters: []
+    headers:
+      - name: Content-Type
+        value: application/json
+        id: pair_54780ec289bc43b3a47331d125d85def
+    authentication:
+      type: bearer
+      token: ""
+    metaSortKey: -1631808658715.25
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_2ce3f7e9f85740bf92fe9fb09a54a290
+    parentId: fld_3856197487704135bdbaaafc2607d05f
+    modified: 1631823084424
+    created: 1631808658709
+    url: localhost:3333/users/delete?targetUserId=string
+    name: Delete User
+    description: ""
+    method: DELETE
+    body: {}
+    parameters: []
+    headers: []
+    authentication:
+      type: bearer
+      token: ""
+    metaSortKey: -1631808658709
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: env_e88b63b27ac7a44dd82c9c315d624d420a838bc9
+    parentId: wrk_4eff38ed19cc458396d36861cf492a38
+    modified: 1631472058140
+    created: 1631472058140
+    name: Base Environment
+    data: {}
+    dataPropertyOrder: null
+    color: null
+    isPrivate: false
+    metaSortKey: 1631472058140
+    _type: environment
+  - _id: jar_e88b63b27ac7a44dd82c9c315d624d420a838bc9
+    parentId: wrk_4eff38ed19cc458396d36861cf492a38
+    modified: 1631799562142
+    created: 1631472058141
+    name: Default Jar
+    cookies:
+      - key: PHPSESSID
+        value: 6f0abd3935987369057cc4be40c31dba
+        expires: 2021-09-16T14:39:21.000Z
+        maxAge: 3600
+        domain: mcstaging.farmaconde.com.br
+        path: /
+        secure: true
+        httpOnly: true
+        extensions:
+          - SameSite=Lax
+        hostOnly: false
+        creation: 2021-09-16T13:23:00.783Z
+        lastAccessed: 2021-09-16T13:39:22.142Z
+        id: "5936116072008399"
+    _type: cookie_jar
+  - _id: spc_98d82374250b4641a059b4dc19de2ede
+    parentId: wrk_4eff38ed19cc458396d36861cf492a38
+    modified: 1631472058138
+    created: 1631472058138
+    fileName: EnterpriseAPI
+    contents: ""
+    contentType: yaml
+    _type: api_spec
