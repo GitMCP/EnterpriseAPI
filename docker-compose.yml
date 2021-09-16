@@ -1,0 +1,10 @@
+  
+services:
+    database:
+        image: postgres
+        environment:
+            POSTGRES_PASSWORD: ioasys
+            POSTGRES_USER: postgres
+            POSTGRES_DB: enterprise-api
+        ports:
+        - "5432:5432"
