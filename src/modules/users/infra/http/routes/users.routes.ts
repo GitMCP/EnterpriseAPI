@@ -4,6 +4,7 @@ import ensureAutheticated from '../../../../../shared/infra/http/middlewares/ens
 import ListUsersService from '../../../services/ListUsersService';
 import UpdateUserService from '../../../services/UpdateUserService';
 import DetailUserService from '../../../services/DetailUserService';
+import DeleteUserService from '../../..//services/DeleteUserService';
 import AppError from '../../../../../shared/errors/AppError';
 
 const usersRouter = Router();
@@ -133,6 +134,22 @@ usersRouter.get('/detail', ensureAutheticated, async (request, response) => {
 		targetUserId,
 		requestingUserRole: request.user.role,
 		requestingUserId: request.user.id,
+	});
+
+	return response.json(user);
+});
+
+usersRouter.delete('/delete', ensureAutheticated, async (request, response) => {
+	if (!request.query.targetUserId) {
+		throw new AppError('Informe o id da empresa a ser deletada');
+	}
+	const targetUserId = request.query.targetUserId.toString();
+
+	const deleteUser = new DeleteUserService();
+
+	const user = await deleteUser.execute({
+		targetUserId,
+		requestingUserRole: request.user.role,
 	});
 
 	return response.json(user);

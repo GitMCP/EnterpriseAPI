@@ -106,9 +106,9 @@ companiesRouter.delete(
 		}
 		const targetCompanyId = request.query.targetCompanyId.toString();
 
-		const detailCompany = new DeleteCompanyService();
+		const deleteCompany = new DeleteCompanyService();
 
-		const company = await detailCompany.execute({
+		const company = await deleteCompany.execute({
 			targetCompanyId,
 			requestingUserRole: request.user.role,
 		});
