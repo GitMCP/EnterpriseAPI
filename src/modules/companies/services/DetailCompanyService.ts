@@ -35,7 +35,7 @@ class DetailCompanyService {
 	public async execute({
 		targetCompanyId,
 		requestingUserRole,
-	}: Request): Promise<Company> {
+	}: Request): Promise<companyToReturn> {
 		const companiesRepository = getRepository(Company);
 		if (requestingUserRole !== 'admin') {
 			throw new AppError('Permissão negada.');
@@ -46,6 +46,10 @@ class DetailCompanyService {
 			relations: ['director'],
 		});
 
+		if (!company) {
+			throw new AppError('Empresa não encontrada.');
+		}
+
 		const companyToReturn: companyToReturn = { ...company };
 		delete companyToReturn.director_id;
 		if (companyToReturn.director) {
@@ -53,11 +57,7 @@ class DetailCompanyService {
 			delete companyToReturn.director.company_id;
 		}
 
-		if (!company) {
-			throw new AppError('Empresa não encontrada.');
-		}
-
-		return company;
+		return companyToReturn;
 	}
 }
 

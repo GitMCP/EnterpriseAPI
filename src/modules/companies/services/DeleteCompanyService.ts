@@ -1,5 +1,5 @@
 import Company from '../typeorm/entities/Company';
-import { getRepository, ObjectID } from 'typeorm';
+import { getRepository } from 'typeorm';
 
 import AppError from '../../../shared/errors/AppError';
 import User from '../../users/typeorm/entities/User';

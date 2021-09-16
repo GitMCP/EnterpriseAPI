@@ -6,7 +6,7 @@ import {
 	UpdateDateColumn,
 	DeleteDateColumn,
 	JoinColumn,
-	OneToMany,
+	ManyToOne,
 } from 'typeorm';
 
 import { userRoles } from '../../constants/userRoles';
@@ -57,7 +57,7 @@ class User {
 	@Column()
 	company_id: string;
 
-	@OneToMany(() => Company, Company => Company.id)
+	@ManyToOne(() => Company, Company => Company.id)
 	@JoinColumn({ name: 'company_id' })
 	company: Company;
 

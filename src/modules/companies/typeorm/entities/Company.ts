@@ -5,15 +5,20 @@ import {
 	PrimaryGeneratedColumn,
 	CreateDateColumn,
 	UpdateDateColumn,
-	ManyToOne,
+	OneToOne,
 	JoinColumn,
 	DeleteDateColumn,
+	OneToMany,
 } from 'typeorm';
 
 @Entity('companies')
 class Company {
 	@PrimaryGeneratedColumn('uuid')
 	id: string;
+
+	@OneToMany(() => User, user => user.company_id)
+	@JoinColumn({ name: 'id' })
+	employees: User[];
 
 	@Column()
 	name: string;
@@ -30,7 +35,7 @@ class Company {
 	@Column()
 	director_id: string;
 
-	@ManyToOne(() => User)
+	@OneToOne(() => User)
 	@JoinColumn({ name: 'director_id' })
 	director: User;
 

@@ -5,6 +5,7 @@ import ensureAutheticated from '../../../../../shared/infra/http/middlewares/ens
 import User from '../../../typeorm/entities/User';
 import { getRepository } from 'typeorm';
 import UpdateUserService from '../../../services/UpdateUserService';
+import DetailUserService from '../../../services/DetailUserService';
 import AppError from '../../../../../shared/errors/AppError';
 
 const usersRouter = Router();
@@ -101,6 +102,23 @@ usersRouter.put('/update', ensureAutheticated, async (request, response) => {
 	delete userToReturn.requestingUserRole;
 
 	return response.json(userToReturn);
+});
+
+usersRouter.get('/detail', ensureAutheticated, async (request, response) => {
+	if (!request.query.targetUserId) {
+		throw new AppError('Informe o id do usuário a ser detalhado');
+	}
+	const targetUserId = request.query.targetUserId.toString();
+
+	const detailUser = new DetailUserService();
+
+	const user = await detailUser.execute({
+		targetUserId,
+		requestingUserRole: request.user.role,
+		requestingUserId: request.user.id,
+	});
+
+	return response.json(user);
 });
 
 export default usersRouter;

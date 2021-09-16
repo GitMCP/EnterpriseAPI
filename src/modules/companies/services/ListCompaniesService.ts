@@ -46,7 +46,6 @@ class ListCompaniesService {
 				director_id: director ? director.id : null,
 			}).filter(([_, v]) => v != null),
 		);
-		console.log(conditions);
 
 		const companies = companiesRepository.find({
 			where: conditions,
