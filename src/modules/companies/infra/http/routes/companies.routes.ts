@@ -6,6 +6,7 @@ import UpdateCompanyService from '../../../services/UpdateCompanyService';
 import ListCompaniesService from '../../../services/ListCompaniesService';
 import DetailCompanyService from '../../../services/DetailCompanyService';
 import DeleteCompanyService from '../../../services/DeleteCompanyService';
+import HireEmployeeService from '../../../services/HireEmployeeService';
 
 const companiesRouter = Router();
 
@@ -116,5 +117,21 @@ companiesRouter.delete(
 		return response.json(company);
 	},
 );
+
+companiesRouter.post('/hire', ensureAutheticated, async (request, response) => {
+	const { targetUserId, targetCompanyId, targetJob } = request.body;
+
+	const hireEmployee = new HireEmployeeService();
+
+	const employee = await hireEmployee.execute({
+		targetUserId,
+		targetCompanyId,
+		targetJob,
+		requestingUserId: request.user.id,
+		requestingUserRole: request.user.role,
+	});
+
+	return response.json(employee);
+});
 
 export default companiesRouter;

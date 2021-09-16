@@ -6,6 +6,7 @@ import AppError from '../../../errors/AppError';
 
 interface TokenPayLoad {
 	userRole: string;
+	userCompany: string;
 	iat: number;
 	exp: number;
 	sub: string;
@@ -27,11 +28,12 @@ export default function ensureAutheticated(
 	try {
 		const decoded = verify(token, authConfig.jwt.secret);
 
-		const { userRole, sub, exp, iat } = decoded as TokenPayLoad;
+		const { userRole, userCompany, sub, exp, iat } = decoded as TokenPayLoad;
 
 		request.user = {
 			id: sub,
 			role: userRole,
+			companyId: userCompany,
 		};
 		return next();
 	} catch {
