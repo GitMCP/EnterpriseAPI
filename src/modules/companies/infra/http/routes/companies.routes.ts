@@ -4,6 +4,7 @@ import CreateCompanyService from '../../../services/CreateCompanyService';
 import AppError from '../../../../../shared/errors/AppError';
 import UpdateCompanyService from '../../../services/UpdateCompanyService';
 import ListCompaniesService from '../../../services/ListCompaniesService';
+import DetailCompanyService from '../../../services/DetailCompanyService';
 
 const companiesRouter = Router();
 
@@ -44,8 +45,8 @@ companiesRouter.put(
 		const updateCompany = new UpdateCompanyService();
 
 		const company = await updateCompany.execute({
-			requestingUserRole: request.user.role,
 			targetCompanyId: targetCompanyId.toString(),
+			requestingUserRole: request.user.role,
 			name,
 			business_area,
 			description,
@@ -74,5 +75,25 @@ companiesRouter.post('/list', ensureAutheticated, async (request, response) => {
 
 	return response.json(company);
 });
+
+companiesRouter.get(
+	'/detail',
+	ensureAutheticated,
+	async (request, response) => {
+		if (!request.query.targetCompanyId) {
+			throw new AppError('Informe o id da empresa a ser alterada');
+		}
+		const targetCompanyId = request.query.targetCompanyId.toString();
+
+		const detailCompany = new DetailCompanyService();
+
+		const company = await detailCompany.execute({
+			targetCompanyId,
+			requestingUserRole: request.user.role,
+		});
+
+		return response.json(company);
+	},
+);
 
 export default companiesRouter;

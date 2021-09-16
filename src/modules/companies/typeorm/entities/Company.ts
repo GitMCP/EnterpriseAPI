@@ -5,7 +5,7 @@ import {
 	PrimaryGeneratedColumn,
 	CreateDateColumn,
 	UpdateDateColumn,
-	ManyToMany,
+	ManyToOne,
 	JoinColumn,
 } from 'typeorm';
 
@@ -29,9 +29,9 @@ class Company {
 	@Column()
 	director_id: string;
 
-	@ManyToMany(() => User)
+	@ManyToOne(() => User)
 	@JoinColumn({ name: 'director_id' })
-	colaborator: User;
+	director: User;
 
 	@CreateDateColumn()
 	created_at: Date;
