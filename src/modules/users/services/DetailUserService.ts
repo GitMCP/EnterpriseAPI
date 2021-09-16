@@ -8,7 +8,7 @@ interface Request {
 	requestingUserId: string;
 	requestingUserRole: string;
 }
-interface userToReturn {
+interface UserToReturn {
 	id: string;
 	role: string;
 	name: string;
@@ -43,7 +43,7 @@ class DetailUserService {
 		targetUserId,
 		requestingUserId,
 		requestingUserRole,
-	}: Request): Promise<userToReturn> {
+	}: Request): Promise<UserToReturn> {
 		const usersRepository = getRepository(User);
 		if (requestingUserRole !== 'admin' && targetUserId !== requestingUserId) {
 			throw new AppError('Permissão negada.');
@@ -58,7 +58,7 @@ class DetailUserService {
 			throw new AppError('Usuário não encontrado.');
 		}
 
-		const userToReturn: userToReturn = { ...user };
+		const userToReturn: UserToReturn = { ...user };
 		delete userToReturn.password;
 		delete userToReturn.company_id;
 		const companyToReturn: companyToReturn = { ...user.company };

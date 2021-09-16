@@ -47,7 +47,7 @@ class ListCompaniesService {
 			}).filter(([_, v]) => v != null),
 		);
 
-		const companies = companiesRepository.find({
+		const companies = await companiesRepository.find({
 			where: conditions,
 		});
 

@@ -1,9 +1,7 @@
 import { Router } from 'express';
 import CreateUserService from '../../../services/CreateUserService';
 import ensureAutheticated from '../../../../../shared/infra/http/middlewares/ensureAuthenticated';
-
-import User from '../../../typeorm/entities/User';
-import { getRepository } from 'typeorm';
+import ListUsersService from '../../../services/ListUsersService';
 import UpdateUserService from '../../../services/UpdateUserService';
 import DetailUserService from '../../../services/DetailUserService';
 import AppError from '../../../../../shared/errors/AppError';
@@ -48,16 +46,35 @@ usersRouter.post('/create', async (request, response) => {
 	return response.json(userToReturn);
 });
 
-usersRouter.get('/list', ensureAutheticated, async (request, response) => {
-	if (request.user.role != 'admin') {
-		throw new AppError('Permissão negada.');
-	}
+usersRouter.post('/list', ensureAutheticated, async (request, response) => {
+	const {
+		role,
+		name,
+		email,
+		birth_date,
+		uf,
+		city,
+		education_level,
+		company_id,
+		job,
+	} = request.body;
 
-	const usersRepository = getRepository(User);
+	const listCompanies = new ListUsersService();
 
-	const [users, total] = await usersRepository.findAndCount();
+	const company = await listCompanies.execute({
+		requestingUserRole: request.user.role,
+		role,
+		name,
+		email,
+		birth_date,
+		uf,
+		city,
+		education_level,
+		company_id,
+		job,
+	});
 
-	return response.json({ ...users, total });
+	return response.json(company);
 });
 
 usersRouter.put('/update', ensureAutheticated, async (request, response) => {
