@@ -8,6 +8,7 @@ import DetailCompanyService from '../../../services/DetailCompanyService';
 import DeleteCompanyService from '../../../services/DeleteCompanyService';
 import HireEmployeeService from '../../../services/HireEmployeeService';
 import DismissEmployeeService from '../../../services/DismissEmployeeService';
+import ListEmployeesService from '../../../services/ListEmployeesService';
 
 const companiesRouter = Router();
 
@@ -152,6 +153,42 @@ companiesRouter.post(
 		});
 
 		return response.json(employee);
+	},
+);
+
+companiesRouter.post(
+	'/listemployees',
+	ensureAutheticated,
+	async (request, response) => {
+		const {
+			targetCompanyId,
+			role,
+			name,
+			email,
+			birth_date,
+			uf,
+			city,
+			education_level,
+			job,
+		} = request.body;
+
+		const listEmployees = new ListEmployeesService();
+
+		const employees = await listEmployees.execute({
+			requestingUserId: request.user.id,
+			requestingUserRole: request.user.role,
+			targetCompanyId,
+			role,
+			name,
+			email,
+			birth_date,
+			uf,
+			city,
+			education_level,
+			job,
+		});
+
+		return response.json(employees);
 	},
 );
 

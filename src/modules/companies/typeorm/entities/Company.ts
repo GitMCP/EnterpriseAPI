@@ -16,7 +16,7 @@ class Company {
 	@PrimaryGeneratedColumn('uuid')
 	id: string;
 
-	@OneToMany(() => User, user => user.company_id)
+	@OneToMany(() => User, User => User.company)
 	@JoinColumn({ name: 'id' })
 	employees: User[];
 
