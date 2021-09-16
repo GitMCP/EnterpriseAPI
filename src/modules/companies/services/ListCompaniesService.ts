@@ -1,6 +1,6 @@
 import moment from 'moment';
 import Company from '../typeorm/entities/Company';
-import User from '../../users/entities/User';
+import User from '../../users/typeorm/entities/User';
 import { getRepository } from 'typeorm';
 
 import AppError from '../../../shared/errors/AppError';

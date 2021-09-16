@@ -1,6 +1,4 @@
-import moment from 'moment';
 import Company from '../typeorm/entities/Company';
-import User from '../../users/entities/User';
 import { getRepository } from 'typeorm';
 
 import AppError from '../../../shared/errors/AppError';
@@ -39,7 +37,6 @@ class DetailCompanyService {
 		requestingUserRole,
 	}: Request): Promise<Company> {
 		const companiesRepository = getRepository(Company);
-		const usersRepository = getRepository(User);
 		if (requestingUserRole !== 'admin') {
 			throw new AppError('Permissão negada.');
 		}

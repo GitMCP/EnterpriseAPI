@@ -1,4 +1,4 @@
-import User from '../../../users/entities/User';
+import User from '../../../users/typeorm/entities/User';
 import {
 	Entity,
 	Column,
@@ -7,6 +7,7 @@ import {
 	UpdateDateColumn,
 	ManyToOne,
 	JoinColumn,
+	DeleteDateColumn,
 } from 'typeorm';
 
 @Entity('companies')
@@ -38,6 +39,9 @@ class Company {
 
 	@UpdateDateColumn()
 	updated_at: Date;
+
+	@DeleteDateColumn()
+	deleted_at: Date;
 }
 
 export default Company;

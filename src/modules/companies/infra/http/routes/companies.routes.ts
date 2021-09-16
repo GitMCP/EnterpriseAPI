@@ -5,6 +5,7 @@ import AppError from '../../../../../shared/errors/AppError';
 import UpdateCompanyService from '../../../services/UpdateCompanyService';
 import ListCompaniesService from '../../../services/ListCompaniesService';
 import DetailCompanyService from '../../../services/DetailCompanyService';
+import DeleteCompanyService from '../../../services/DeleteCompanyService';
 
 const companiesRouter = Router();
 
@@ -81,11 +82,31 @@ companiesRouter.get(
 	ensureAutheticated,
 	async (request, response) => {
 		if (!request.query.targetCompanyId) {
-			throw new AppError('Informe o id da empresa a ser alterada');
+			throw new AppError('Informe o id da empresa a ser detalhada');
 		}
 		const targetCompanyId = request.query.targetCompanyId.toString();
 
 		const detailCompany = new DetailCompanyService();
+
+		const company = await detailCompany.execute({
+			targetCompanyId,
+			requestingUserRole: request.user.role,
+		});
+
+		return response.json(company);
+	},
+);
+
+companiesRouter.delete(
+	'/delete',
+	ensureAutheticated,
+	async (request, response) => {
+		if (!request.query.targetCompanyId) {
+			throw new AppError('Informe o id da empresa a ser deletada');
+		}
+		const targetCompanyId = request.query.targetCompanyId.toString();
+
+		const detailCompany = new DeleteCompanyService();
 
 		const company = await detailCompany.execute({
 			targetCompanyId,
